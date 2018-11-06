@@ -2,10 +2,13 @@ package co.paulfran.paulfranco.popularmoviesstagetwo.controllers;
 
 import android.content.ContentValues;
 import android.content.Intent;
+import android.content.res.ColorStateList;
 import android.database.Cursor;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
+import android.support.design.widget.CollapsingToolbarLayout;
+import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.widget.NestedScrollView;
@@ -21,6 +24,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.nex3z.flowlayout.FlowLayout;
 import com.orhanobut.logger.Logger;
 import com.squareup.picasso.Picasso;
 
@@ -33,8 +37,9 @@ import co.paulfran.paulfranco.popularmoviesstagetwo.models.Movie.Movie;
 import co.paulfran.paulfranco.popularmoviesstagetwo.models.Movie.Video;
 import co.paulfran.paulfranco.popularmoviesstagetwo.utils.ImageUtils;
 import co.paulfran.paulfranco.popularmoviesstagetwo.utils.ItemSpacingDecoration;
+import me.zhanghai.android.materialratingbar.MaterialRatingBar;
 
-public class MovieDetailFragment extends Fragment {
+public class MovieDetailsFragment extends Fragment {
 
     public static String EXTRA_MOVIE_KEY = "extra_movie";
 
@@ -55,7 +60,7 @@ public class MovieDetailFragment extends Fragment {
 
     private boolean mIsFavourite;
 
-    public MovieDetailFragment() {
+    public MovieDetailsFragment() {
     }
 
     @Override
