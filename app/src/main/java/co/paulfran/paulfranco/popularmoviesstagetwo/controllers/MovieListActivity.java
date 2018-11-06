@@ -1,10 +1,13 @@
 package co.paulfran.paulfranco.popularmoviesstagetwo.controllers;
 
+import android.annotation.SuppressLint;
 import android.app.LoaderManager;
+import android.content.AsyncTaskLoader;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.content.Loader;
 import android.database.Cursor;
 import android.net.ConnectivityManager;
 import android.os.Bundle;
@@ -12,6 +15,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
+import android.util.TypedValue;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -27,9 +31,12 @@ import com.orhanobut.logger.Logger;
 
 import co.paulfran.paulfranco.popularmoviesstagetwo.adapters.FavoriteMoviesAdapter;
 import co.paulfran.paulfranco.popularmoviesstagetwo.adapters.MoviesAdapter;
+import co.paulfran.paulfranco.popularmoviesstagetwo.api.MoviesAPICallback;
 import co.paulfran.paulfranco.popularmoviesstagetwo.api.MoviesAPIManager;
+import co.paulfran.paulfranco.popularmoviesstagetwo.data.MoviesContract;
 import co.paulfran.paulfranco.popularmoviesstagetwo.models.Movies;
 import co.paulfran.paulfranco.popularmoviesstagetwo.utils.ItemSpacingDecoration;
+import co.paulfran.paulfranco.popularmoviesstagetwo.utils.Misc;
 import co.paulfran.paulfranco.popularmoviesstagetwo.utils.RecyclerViewScrollListener;
 
 public class MovieListActivity extends AppCompatActivity implements LoaderManager.LoaderCallbacks<Cursor> {
@@ -282,11 +289,11 @@ public class MovieListActivity extends AppCompatActivity implements LoaderManage
     }
 
     private void getMovies(final int page) {
-        if (sortBy != MoviesApiManager.SortBy.Favourite) {
+        if (sortBy != MoviesAPIManager.SortBy.Favourite) {
             if (isNetworkAvailable()) {
                 getSupportLoaderManager().destroyLoader(FAVOURITES_MOVIE_LOADER_ID);
 
-                MoviesApiManager.getInstance().getMovies(sortBy, page, new MoviesApiCallback<Movies>() {
+                MoviesAPIManager.getInstance().getMovies(sortBy, page, new MoviesAPICallback<Movies>() {
                     @Override
                     public void onResponse(Movies result) {
                         if (result != null) {
@@ -371,10 +378,11 @@ public class MovieListActivity extends AppCompatActivity implements LoaderManage
     }
 
     private void loadSortSelected() {
-        sortBy = MoviesApiManager.SortBy.fromId(getPreferences(Context.MODE_PRIVATE).getInt(getString(R.string.saved_sort_by_key), 0));
+        sortBy = MoviesAPIManager.SortBy.fromId(getPreferences(Context.MODE_PRIVATE).getInt(getString(R.string.saved_sort_by_key), 0));
         setTitleAccordingSort();
     }
-
+    // May need to remove SuppressLint
+    @SuppressLint("StaticFieldLeak")
     @Override
     public Loader<Cursor> onCreateLoader(int id, Bundle args) {
         return new AsyncTaskLoader<Cursor>(this) {
@@ -428,7 +436,7 @@ public class MovieListActivity extends AppCompatActivity implements LoaderManage
     @Override
     public void onLoadFinished(Loader<Cursor> loader, Cursor data) {
         if (data != null && data.getCount() > 0) {
-            setRecyclerViewAdapter(new FavouriteMoviesAdapter(this, data, mTwoPane));
+            setRecyclerViewAdapter(new FavoriteMoviesAdapter(this, data, mTwoPane));
         } else {
             mNoDataContainerMsg.setText(R.string.no_favourite_movies_message);
         }
