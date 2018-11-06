@@ -1,4 +1,7 @@
 package co.paulfran.paulfranco.popularmoviesstagetwo.api;
 
-public class MoviesAPICallback {
+public interface MoviesAPICallback<T> {
+    void onResponse(T result);
+
+    void onCancel();
 }
