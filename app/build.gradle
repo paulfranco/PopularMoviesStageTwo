@@ -9,6 +9,10 @@ android {
         versionCode 1
         versionName "1.0"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
+
+        // Please ensure you have a valid API KEY for themoviedb.org to use this app
+        // A valid key will need to be entered in your gradle.properties file
+        buildConfigField("String", "MOVIE_DB_API_KEY", MOVIE_DB_API_KEY)
     }
     buildTypes {
         release {
@@ -25,4 +29,12 @@ dependencies {
     testImplementation 'junit:junit:4.12'
     androidTestImplementation 'com.android.support.test:runner:1.0.2'
     androidTestImplementation 'com.android.support.test.espresso:espresso-core:3.0.2'
+    // Jackson
+    implementation 'com.fasterxml.jackson.core:jackson-core:2.9.4'
+    implementation 'com.fasterxml.jackson.core:jackson-databind:2.9.4'
+    implementation 'com.orhanobut:logger:2.1.1'
+
+    // Retrofit
+    implementation 'com.squareup.retrofit2:retrofit:2.3.0'
+
 }
