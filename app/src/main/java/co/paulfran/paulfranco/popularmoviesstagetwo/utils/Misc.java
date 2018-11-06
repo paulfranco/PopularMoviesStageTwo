@@ -9,7 +9,7 @@ public class Misc {
 
         ConnectivityManager cm = (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
         // May need to remove this assertion in the future
-        assert cm != null;
+        //assert cm != null;
         return cm.getActiveNetworkInfo() != null && cm.getActiveNetworkInfo().isConnected();
     }
 
