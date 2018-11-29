@@ -4,7 +4,7 @@ import android.net.Uri;
 import android.provider.BaseColumns;
 
 public class MoviesContract {
-    public static final String CONTENT_AUTHORITY = "eu.dkaratzas.popularmoviesapp";
+    public static final String CONTENT_AUTHORITY = "co.paulfran.paulfranco.popularmoviesstagetwo";
     public static final Uri BASE_CONTENT_URI = Uri.parse("content://" + CONTENT_AUTHORITY);
     public static final String PATH_MOVIES = "movies";
 

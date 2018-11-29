@@ -371,7 +371,7 @@ public class MovieListActivity extends AppCompatActivity implements LoaderManage
             case TopRated:
                 setTitle(getString(R.string.top_rated) + " " + getString(R.string.movies));
                 break;
-            case Favourite:
+            case Favorite:
                 setTitle(getString(R.string.favorite) + " " + getString(R.string.movies));
                 break;
         }
