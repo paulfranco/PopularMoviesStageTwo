@@ -23,6 +23,6 @@
             android:scrollbars="vertical"
             android:visibility="gone"
             tools:listitem="@layout/movie_list"
-            tools:mContext="eu.dkaratzas.popularmoviesapp.controllers.MovieListActivity" />
+            tools:mContext="co.paulfran.paulfranco.controllers.MovieListActivity" />
     </com.omadahealth.github.swipyrefreshlayout.library.SwipyRefreshLayout>
 </FrameLayout>

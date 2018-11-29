@@ -1,3 +1,28 @@
 <resources>
     <string name="app_name">PopularMoviesStageTwo</string>
+    <string name="content_authority">co.paulfran.paulfranco.popularmoviesstagetwo</string>
+
+    <!-- MovieListActivity -->
+    <string name="movie_picture_content_description">Movie Image</string>
+    <string name="sort">Sort</string>
+    <string name="no_internet">No Internet Connection!</string>
+    <string name="most_popular">Most Popular</string>
+    <string name="top_rated">Top Rated</string>
+    <string name="favorite">Favorite</string>
+    <string name="movies">Movies</string>
+    <string name="movie_detail_error_message">No Data is Available</string>
+    <string name="no_favorite_movies_message">You have not added any favorite Movies</string>
+    <string name="saved_sort_by_key">sort_by</string>
+
+    <!-- MovieDetailActivity -->
+    <string name="title_movie_detail">Movie Details</string>
+    <string name="plot_synopsis">Plot Synopsis</string>
+    <string name="reviews">Reviews</string>
+    <string name="share">Share</string>
+    <string name="share_trailer">Share Trailer</string>
+    <string name="added_to_favorite">Added to Favorite Movies</string>
+    <string name="removed_from_favorite">Removed From Favorite Movies</string>
+    <string name="play">Play</string>
+    <string name="video">Video</string>
+    <string name="movie_backdrop_image">Movie Backdrop Image</string>
 </resources>

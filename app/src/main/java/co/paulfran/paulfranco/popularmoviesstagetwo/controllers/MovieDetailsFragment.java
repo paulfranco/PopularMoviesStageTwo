@@ -74,7 +74,7 @@ public class MovieDetailsFragment extends Fragment {
 
     @Override
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
-        inflater.inflate(R.menu.movie_details_menu, menu);
+        inflater.inflate(R.menu.movies_details_menu, menu);
         super.onCreateOptionsMenu(menu, inflater);
     }
 
@@ -250,7 +250,7 @@ public class MovieDetailsFragment extends Fragment {
 
             mIsFavourite = !mIsFavourite;
             switchFabStyle();
-            Toast.makeText(getActivity().getApplicationContext(), mMovie.getTitle() + " " + getString(R.string.removed_from_favourite), Toast.LENGTH_SHORT).show();
+            Toast.makeText(getActivity().getApplicationContext(), mMovie.getTitle() + " " + getString(R.string.removed_from_favorite), Toast.LENGTH_SHORT).show();
         } else {
             ContentValues contentValues = new ContentValues();
             contentValues.put(MoviesContract.MoviesEntry.COLUMN_ID, mMovie.getId());
@@ -266,7 +266,7 @@ public class MovieDetailsFragment extends Fragment {
             if (uri != null) {
                 mIsFavourite = !mIsFavourite;
                 switchFabStyle();
-                Toast.makeText(getActivity().getApplicationContext(), mMovie.getTitle() + " " + getString(R.string.added_to_favourite), Toast.LENGTH_SHORT).show();
+                Toast.makeText(getActivity().getApplicationContext(), mMovie.getTitle() + " " + getString(R.string.added_to_favorite), Toast.LENGTH_SHORT).show();
             } else {
                 Logger.d("Uri null");
             }

@@ -208,9 +208,9 @@ public class MovieListActivity extends AppCompatActivity implements LoaderManage
                     }
                 }
                 break;
-            case R.id.menu_sort_favourite:
-                if (sortBy != MoviesAPIManager.SortBy.Favourite) {
-                    sortBy = MoviesAPIManager.SortBy.Favourite;
+            case R.id.menu_sort_favorite:
+                if (sortBy != MoviesAPIManager.SortBy.Favorite) {
+                    sortBy = MoviesAPIManager.SortBy.Favorite;
                     loadMovies();
                     item.setChecked(true);
                     saveSortSelected();
@@ -289,9 +289,9 @@ public class MovieListActivity extends AppCompatActivity implements LoaderManage
     }
 
     private void getMovies(final int page) {
-        if (sortBy != MoviesAPIManager.SortBy.Favourite) {
+        if (sortBy != MoviesAPIManager.SortBy.Favorite) {
             if (isNetworkAvailable()) {
-                getSupportLoaderManager().destroyLoader(FAVOURITES_MOVIE_LOADER_ID);
+                getSupportLoaderManager().destroyLoader(FAVORITES_MOVIE_LOADER_ID);
 
                 MoviesAPIManager.getInstance().getMovies(sortBy, page, new MoviesAPICallback<Movies>() {
                     @Override
@@ -372,7 +372,7 @@ public class MovieListActivity extends AppCompatActivity implements LoaderManage
                 setTitle(getString(R.string.top_rated) + " " + getString(R.string.movies));
                 break;
             case Favourite:
-                setTitle(getString(R.string.favourite) + " " + getString(R.string.movies));
+                setTitle(getString(R.string.favorite) + " " + getString(R.string.movies));
                 break;
         }
     }
@@ -418,7 +418,7 @@ public class MovieListActivity extends AppCompatActivity implements LoaderManage
                             MoviesContract.MoviesEntry._ID);
 
                 } catch (Exception e) {
-                    Logger.e("Failed to asynchronously load data.");
+                    Logger.e("Failed to load data.");
                     e.printStackTrace();
                     return null;
                 }
@@ -438,7 +438,7 @@ public class MovieListActivity extends AppCompatActivity implements LoaderManage
         if (data != null && data.getCount() > 0) {
             setRecyclerViewAdapter(new FavoriteMoviesAdapter(this, data, mTwoPane));
         } else {
-            mNoDataContainerMsg.setText(R.string.no_favourite_movies_message);
+            mNoDataContainerMsg.setText(R.string.no_favorite_movies_message);
         }
         mSwipeRefreshLayout.setRefreshing(false);
     }

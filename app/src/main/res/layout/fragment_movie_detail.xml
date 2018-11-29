@@ -48,7 +48,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:orientation="vertical"
-                app:layout_constraintGuide_percent="@dimen/movie_image_detail_width_percent" />
+                app:layout_constraintGuide_percent="@dimen/movies_image_detail_width_percent" />
 
             <android.support.design.widget.FloatingActionButton
                 android:id="@+id/fbLike"
@@ -156,7 +156,7 @@
             app:layout_constraintEnd_toEndOf="@+id/tvPlotLabel"
             app:layout_constraintStart_toStartOf="@+id/tvPlotLabel"
             app:layout_constraintTop_toBottomOf="@+id/tvPlotLabel"
-            tools:text="Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum." />
+            tools:text="No, Threepio's with them. Just hang on. We're almost there. Mmmm. Oh, my. Uh, I, uh - Take this off! I, uh, don't mean to intrude here. I, don't, no, no, no...Please don't get up. No! Stormtroopers? Here? We're in danger. I must tell the others. Oh, no! I've been shot!" />
 
         <android.support.v7.widget.RecyclerView
             android:id="@+id/rvVideos"
