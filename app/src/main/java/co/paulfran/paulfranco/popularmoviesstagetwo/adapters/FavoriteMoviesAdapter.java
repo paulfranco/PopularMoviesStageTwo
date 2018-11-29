@@ -21,6 +21,9 @@ import co.paulfran.paulfranco.popularmoviesstagetwo.controllers.MovieListActivit
 import co.paulfran.paulfranco.popularmoviesstagetwo.data.MoviesContract;
 import co.paulfran.paulfranco.popularmoviesstagetwo.holders.MovieViewHolder;
 import co.paulfran.paulfranco.popularmoviesstagetwo.models.Movie.Movie;
+import co.paulfran.paulfranco.popularmoviesstagetwo.models.Movie.VideoResults;
+import co.paulfran.paulfranco.popularmoviesstagetwo.models.Movie.Reviews;
+import co.paulfran.paulfranco.popularmoviesstagetwo.models.Movie.Genre;
 import co.paulfran.paulfranco.popularmoviesstagetwo.R;
 import co.paulfran.paulfranco.popularmoviesstagetwo.utils.ImageUtils;
 import co.paulfran.paulfranco.popularmoviesstagetwo.utils.Misc;
@@ -30,7 +33,7 @@ public class FavoriteMoviesAdapter extends RecyclerView.Adapter<MovieViewHolder>
     private MovieListActivity mParentActivity;
     private boolean mTwoPane;
 
-    private List<Movie> mFavouriteMovies;
+    private List<Movie> mFavoriteMovies;
     private Call<Movie> callRequest;
 
 
@@ -38,7 +41,7 @@ public class FavoriteMoviesAdapter extends RecyclerView.Adapter<MovieViewHolder>
         this.mParentActivity = parent;
         this.mTwoPane = twoPane;
 
-        mFavouriteMovies = new ArrayList<>();
+        mFavoriteMovies = new ArrayList<>();
         loadMoviesFromCursor(cursor);
 
     }
@@ -57,7 +60,7 @@ public class FavoriteMoviesAdapter extends RecyclerView.Adapter<MovieViewHolder>
             @Override
             public void run() {
                 Picasso.with(mParentActivity.getApplicationContext())
-                        .load(ImageUtils.buildPosterImageUrl(mFavouriteMovies.get(pos).getPosterPath(), holder.mIvMovie.getWidth()))
+                        .load(ImageUtils.buildPosterImageUrl(mFavoriteMovies.get(pos).getPosterPath(), holder.mIvMovie.getWidth()))
                         .placeholder(R.drawable.ic_launcher_foreground)
                         .error(R.drawable.ic_launcher_foreground)
                         .into(holder.mIvMovie);
@@ -81,7 +84,7 @@ public class FavoriteMoviesAdapter extends RecyclerView.Adapter<MovieViewHolder>
 
     @Override
     public int getItemCount() {
-        return mFavouriteMovies.size();
+        return mFavoriteMovies.size();
     }
 
 
@@ -89,7 +92,7 @@ public class FavoriteMoviesAdapter extends RecyclerView.Adapter<MovieViewHolder>
         if (Misc.isNetworkAvailable(mParentActivity)) {
             movieViewHolder.showProgress(true);
 
-            callRequest = MoviesAPIManager.getInstance().getMovie(mFavouriteMovies.get(position).getId(), new MoviesAPICallback<Movie>() {
+            callRequest = MoviesAPIManager.getInstance().getMovie(mFavoriteMovies.get(position).getId(), new MoviesAPICallback<Movie>() {
                 @Override
                 public void onResponse(Movie result) {
                     if (result != null) {
@@ -106,7 +109,7 @@ public class FavoriteMoviesAdapter extends RecyclerView.Adapter<MovieViewHolder>
                 }
             });
         } else {
-            showMovieDetails(mFavouriteMovies.get(position));
+            showMovieDetails(mFavoriteMovies.get(position));
         }
 
 
@@ -142,7 +145,7 @@ public class FavoriteMoviesAdapter extends RecyclerView.Adapter<MovieViewHolder>
 
             cursor.moveToPosition(i);
 
-            mFavouriteMovies.add(new Movie(
+            mFavoriteMovies.add(new Movie(
                     cursor.getInt(movieIdIndex),
                     cursor.getString(titleIndex),
                     cursor.getString(overviewIndex),
