@@ -28,7 +28,6 @@ import com.nex3z.flowlayout.FlowLayout;
 import com.orhanobut.logger.Logger;
 import com.squareup.picasso.Picasso;
 
-import co.paulfran.paulfranco.popularmoviesstagetwo.R;
 import co.paulfran.paulfranco.popularmoviesstagetwo.adapters.ReviewsAdapter;
 import co.paulfran.paulfranco.popularmoviesstagetwo.adapters.VideosAdapter;
 import co.paulfran.paulfranco.popularmoviesstagetwo.data.MoviesContract;
@@ -38,7 +37,7 @@ import co.paulfran.paulfranco.popularmoviesstagetwo.models.Movie.Video;
 import co.paulfran.paulfranco.popularmoviesstagetwo.utils.ImageUtils;
 import co.paulfran.paulfranco.popularmoviesstagetwo.utils.ItemSpacingDecoration;
 import me.zhanghai.android.materialratingbar.MaterialRatingBar;
-
+import co.paulfran.paulfranco.popularmoviesstagetwo.R;
 public class MovieDetailsFragment extends Fragment {
 
     public static String EXTRA_MOVIE_KEY = "extra_movie";
@@ -57,8 +56,7 @@ public class MovieDetailsFragment extends Fragment {
     private TextView mTvReviewsTitle;
     private RecyclerView mRvReviews;
     private FloatingActionButton mFbLike;
-
-    private boolean mIsFavourite;
+    private boolean mIsFavorite;
 
     public MovieDetailsFragment() {
     }
@@ -92,7 +90,7 @@ public class MovieDetailsFragment extends Fragment {
         View rootView = inflater.inflate(R.layout.fragment_movie_detail, container, false);
 
         mSvDetailsContainer = rootView.findViewById(R.id.svDetailsContainer);
-        mIsFavourite = isFavouriteMovie();
+        mIsFavorite = isFavoriteMovie();
 
         if (mMovie != null) {
             initializeViews(rootView);
@@ -156,7 +154,7 @@ public class MovieDetailsFragment extends Fragment {
 
         for (Genre genre : mMovie.getGenres()) {
             TextView textView = new TextView(getActivity());
-            textView.setBackground(ContextCompat.getDrawable(getActivity().getApplicationContext(), R.drawable.label_bg));
+            //textView.setBackground(ContextCompat.getDrawable(getActivity().getApplicationContext(), R.drawable.label_bg));
             textView.setText(genre.getName());
             textView.setTextColor(ContextCompat.getColor(getActivity().getApplicationContext(), R.color.colorLightGrey));
             mGenresContainer.addView(textView);
@@ -229,7 +227,7 @@ public class MovieDetailsFragment extends Fragment {
         return (getActivity() instanceof MovieListActivity);
     }
 
-    private boolean isFavouriteMovie() {
+    private boolean isFavoriteMovie() {
 
         final Cursor cursor;
         cursor = getContext().getContentResolver().query(MoviesContract.MoviesEntry.CONTENT_URI, null, "movie_id=?", new String[]{String.valueOf(mMovie.getId())}, null);
@@ -241,14 +239,14 @@ public class MovieDetailsFragment extends Fragment {
 
     private void switchFavouriteStatus() {
 
-        if (mIsFavourite) {
+        if (mIsFavorite) {
             Uri uri = MoviesContract.MoviesEntry.CONTENT_URI;
             uri = uri.buildUpon().appendPath(String.valueOf(mMovie.getId())).build();
             int returnUri = getContext().getContentResolver().delete(uri, null, null);
             Logger.d("ReturnUri: " + returnUri);
             getContext().getContentResolver().notifyChange(uri, null);
 
-            mIsFavourite = !mIsFavourite;
+            mIsFavorite = !mIsFavorite;
             switchFabStyle();
             Toast.makeText(getActivity().getApplicationContext(), mMovie.getTitle() + " " + getString(R.string.removed_from_favorite), Toast.LENGTH_SHORT).show();
         } else {
@@ -264,7 +262,7 @@ public class MovieDetailsFragment extends Fragment {
 
             Uri uri = getContext().getContentResolver().insert(MoviesContract.MoviesEntry.CONTENT_URI, contentValues);
             if (uri != null) {
-                mIsFavourite = !mIsFavourite;
+                mIsFavorite = !mIsFavorite;
                 switchFabStyle();
                 Toast.makeText(getActivity().getApplicationContext(), mMovie.getTitle() + " " + getString(R.string.added_to_favorite), Toast.LENGTH_SHORT).show();
             } else {
@@ -274,11 +272,11 @@ public class MovieDetailsFragment extends Fragment {
     }
 
     private void switchFabStyle() {
-        if (mIsFavourite) {
-            mFbLike.setImageDrawable(ContextCompat.getDrawable(getContext(), R.drawable.ic_broken_heart));
+        if (mIsFavorite) {
+            mFbLike.setImageDrawable(ContextCompat.getDrawable(getContext(), R.drawable.ic_thumb_down));
             mFbLike.setBackgroundTintList(ColorStateList.valueOf(ContextCompat.getColor(getContext(), R.color.colorDarkGrey)));
         } else {
-            mFbLike.setImageDrawable(ContextCompat.getDrawable(getContext(), R.drawable.ic_heart));
+            mFbLike.setImageDrawable(ContextCompat.getDrawable(getContext(), R.drawable.ic_thumb_up));
             mFbLike.setBackgroundTintList(ColorStateList.valueOf(ContextCompat.getColor(getContext(), R.color.colorAccent)));
         }
     }

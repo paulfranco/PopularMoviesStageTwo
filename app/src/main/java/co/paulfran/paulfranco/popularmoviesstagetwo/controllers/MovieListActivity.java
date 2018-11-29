@@ -51,7 +51,7 @@ public class MovieListActivity extends AppCompatActivity implements LoaderManage
 
     public static final String BUNDLE_MOVIES_KEY = "movies";
     public static final String BUNDLE_RECYCLER_POSITION_KEY = "recycler_position";
-    public static final int FAVOURITES_MOVIE_LOADER_ID = 89;
+    public static final int FAVORITE_MOVIE_LOADER_ID = 89;
 
     private Movies mMovies = new Movies();
 
@@ -71,7 +71,7 @@ public class MovieListActivity extends AppCompatActivity implements LoaderManage
                 if (isNetworkAvailable()) {
                     loadMovies();
                 } else {
-                    if (sortBy == MoviesAPIManager.SortBy.Favourite) {
+                    if (sortBy == MoviesAPIManager.SortBy.Favorite) {
                         // We can load favourite movies even without connection
                         loadMovies();
                     }
@@ -173,8 +173,8 @@ public class MovieListActivity extends AppCompatActivity implements LoaderManage
         // Restored Instance State
         if (sortBy == MoviesAPIManager.SortBy.TopRated)
             menu.findItem(R.id.menu_sort_top_rated).setChecked(true);
-        else if (sortBy == MoviesAPIManager.SortBy.Favourite)
-            menu.findItem(R.id.menu_sort_favourite).setChecked(true);
+        else if (sortBy == MoviesAPIManager.SortBy.Favorite)
+            menu.findItem(R.id.menu_sort_favorite).setChecked(true);
 
         return true;
     }
@@ -291,7 +291,7 @@ public class MovieListActivity extends AppCompatActivity implements LoaderManage
     private void getMovies(final int page) {
         if (sortBy != MoviesAPIManager.SortBy.Favorite) {
             if (isNetworkAvailable()) {
-                getSupportLoaderManager().destroyLoader(FAVORITES_MOVIE_LOADER_ID);
+                getSupportLoaderManager().destroyLoader(FAVORITE_MOVIE_LOADER_ID);
 
                 MoviesAPIManager.getInstance().getMovies(sortBy, page, new MoviesAPICallback<Movies>() {
                     @Override
@@ -325,7 +325,7 @@ public class MovieListActivity extends AppCompatActivity implements LoaderManage
             mMovies = new Movies();
             // Reset recycler adapter
             setRecyclerViewAdapter(null);
-            getSupportLoaderManager().initLoader(FAVOURITES_MOVIE_LOADER_ID, null, this);
+            getSupportLoaderManager().initLoader(FAVORITE_MOVIE_LOADER_ID, null, (android.support.v4.app.LoaderManager.LoaderCallbacks<Object>) this);
         }
 
     }

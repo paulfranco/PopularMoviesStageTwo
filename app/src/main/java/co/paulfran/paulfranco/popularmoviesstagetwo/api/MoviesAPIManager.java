@@ -48,7 +48,7 @@ public final class MoviesAPIManager implements Serializable {
     public enum SortBy {
         MostPopular(0),
         TopRated(1),
-        Favourite(2);
+        Favorite(2);
 
         private int mValue;
 

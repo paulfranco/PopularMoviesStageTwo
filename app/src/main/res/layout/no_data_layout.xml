@@ -19,7 +19,7 @@
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:srcCompat="@drawable/ic_popcorn_grey" />
+        app:srcCompat="@drawable/placeholder" />
 
     <android.support.constraint.Guideline
         android:id="@+id/guideline2"
