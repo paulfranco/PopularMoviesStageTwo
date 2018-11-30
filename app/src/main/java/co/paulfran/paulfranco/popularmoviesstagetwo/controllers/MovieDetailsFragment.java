@@ -68,7 +68,7 @@ public class MovieDetailsFragment extends Fragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        if (getArguments().containsKey(EXTRA_MOVIE_KEY)) {
+        if (Objects.requireNonNull(getArguments()).containsKey(EXTRA_MOVIE_KEY)) {
             mMovie = getArguments().getParcelable(EXTRA_MOVIE_KEY);
         }
     }
@@ -123,7 +123,8 @@ public class MovieDetailsFragment extends Fragment {
         mFbLike.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                switchFavouriteStatus();
+                // toggle favorite status
+                switchFavoriteStatus();
             }
         });
     }
@@ -209,10 +210,12 @@ public class MovieDetailsFragment extends Fragment {
     private void closeOnError() {
         Toasty.error(Objects.requireNonNull(getActivity()).getApplicationContext(), getString(R.string.movie_detail_error_message), Toast.LENGTH_SHORT, true).show();
 
-        // Not in TwoPane Mode so close the MovieDetailActivity
-        if (!areOnTwoPaneMove()) {
+        // if not on two pane mode
+        if (!areOnTwoPaneMode()) {
+            //close the activity
             getActivity().finish();
         } else {
+            // else set the visibility to gone
             mSvDetailsContainer.setVisibility(View.GONE);
         }
     }
@@ -225,7 +228,7 @@ public class MovieDetailsFragment extends Fragment {
         startActivity(Intent.createChooser(sharingIntent, getString(R.string.share_trailer)));
     }
 
-    private boolean areOnTwoPaneMove() {
+    private boolean areOnTwoPaneMode() {
         return (getActivity() instanceof MovieListActivity);
     }
 
@@ -239,7 +242,7 @@ public class MovieDetailsFragment extends Fragment {
         return result;
     }
 
-    private void switchFavouriteStatus() {
+    private void switchFavoriteStatus() {
 
         if (mIsFavorite) {
             Uri uri = MoviesContract.MoviesEntry.CONTENT_URI;
@@ -266,7 +269,6 @@ public class MovieDetailsFragment extends Fragment {
             if (uri != null) {
                 mIsFavorite = !mIsFavorite;
                 switchFabStyle();
-                //Toast.makeText(Objects.requireNonNull(getActivity()).getApplicationContext(), mMovie.getTitle() + " " + getString(R.string.added_to_favorite), Toast.LENGTH_SHORT).show();
                 Toasty.info(Objects.requireNonNull(getActivity()).getApplicationContext(), mMovie.getTitle() + " " + getString(R.string.added_to_favorite), Toast.LENGTH_SHORT, true).show();
             } else {
                 Logger.d("Uri null");
