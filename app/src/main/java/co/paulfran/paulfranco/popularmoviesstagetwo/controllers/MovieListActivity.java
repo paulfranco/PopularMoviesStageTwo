@@ -24,6 +24,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 import android.widget.Toast;
+
 import co.paulfran.paulfranco.popularmoviesstagetwo.R;
 
 import com.omadahealth.github.swipyrefreshlayout.library.SwipyRefreshLayout;
@@ -39,6 +40,7 @@ import co.paulfran.paulfranco.popularmoviesstagetwo.models.Movies;
 import co.paulfran.paulfranco.popularmoviesstagetwo.utils.ItemSpacingDecoration;
 import co.paulfran.paulfranco.popularmoviesstagetwo.utils.Misc;
 import co.paulfran.paulfranco.popularmoviesstagetwo.utils.RecyclerViewScrollListener;
+import es.dmoral.toasty.Toasty;
 
 public class MovieListActivity extends AppCompatActivity implements android.support.v4.app.LoaderManager.LoaderCallbacks<Cursor> {
 
@@ -196,7 +198,7 @@ public class MovieListActivity extends AppCompatActivity implements android.supp
                         item.setChecked(true);
                         saveSortSelected();
                     } else {
-                        Toast.makeText(getApplicationContext(), R.string.no_internet, Toast.LENGTH_SHORT).show();
+                        Toasty.error(getApplicationContext(), getString(R.string.toast_no_internet), Toast.LENGTH_SHORT, true).show();
                     }
                 }
                 break;
@@ -209,7 +211,7 @@ public class MovieListActivity extends AppCompatActivity implements android.supp
                         item.setChecked(true);
                         saveSortSelected();
                     } else {
-                        Toast.makeText(getApplicationContext(), R.string.no_internet, Toast.LENGTH_SHORT).show();
+                        Toasty.error(getApplicationContext(), getString(R.string.toast_no_internet), Toast.LENGTH_SHORT, true).show();
                     }
                 }
                 break;
@@ -322,6 +324,8 @@ public class MovieListActivity extends AppCompatActivity implements android.supp
                             // display error message
                             mNoDataContainerMsg.setText(R.string.movie_detail_error_message);
                             Toast.makeText(getApplicationContext(), R.string.movie_detail_error_message, Toast.LENGTH_SHORT).show();
+                            Toasty.error(getApplicationContext(), getString(R.string.movie_detail_error_message), Toast.LENGTH_SHORT, true).show();
+
                         }
                         mSwipeRefreshLayout.setRefreshing(false);
                     }
@@ -333,7 +337,7 @@ public class MovieListActivity extends AppCompatActivity implements android.supp
             } else {
                 mSwipeRefreshLayout.setRefreshing(false);
                 mNoDataContainerMsg.setText(R.string.no_internet);
-                Toast.makeText(getApplicationContext(), R.string.no_internet, Toast.LENGTH_SHORT).show();
+                Toasty.error(getApplicationContext(), getString(R.string.toast_no_internet), Toast.LENGTH_SHORT, true).show();
             }
         } else {
             mMovies = new Movies();

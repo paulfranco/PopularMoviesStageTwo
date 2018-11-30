@@ -28,6 +28,8 @@ import com.nex3z.flowlayout.FlowLayout;
 import com.orhanobut.logger.Logger;
 import com.squareup.picasso.Picasso;
 
+import java.util.Objects;
+
 import co.paulfran.paulfranco.popularmoviesstagetwo.adapters.ReviewsAdapter;
 import co.paulfran.paulfranco.popularmoviesstagetwo.adapters.VideosAdapter;
 import co.paulfran.paulfranco.popularmoviesstagetwo.data.MoviesContract;
@@ -36,6 +38,7 @@ import co.paulfran.paulfranco.popularmoviesstagetwo.models.Movie.Movie;
 import co.paulfran.paulfranco.popularmoviesstagetwo.models.Movie.Video;
 import co.paulfran.paulfranco.popularmoviesstagetwo.utils.ImageUtils;
 import co.paulfran.paulfranco.popularmoviesstagetwo.utils.ItemSpacingDecoration;
+import es.dmoral.toasty.Toasty;
 import me.zhanghai.android.materialratingbar.MaterialRatingBar;
 import co.paulfran.paulfranco.popularmoviesstagetwo.R;
 public class MovieDetailsFragment extends Fragment {
@@ -126,7 +129,7 @@ public class MovieDetailsFragment extends Fragment {
     }
 
     private void populateUI() {
-        CollapsingToolbarLayout appBarLayout = getActivity().findViewById(R.id.toolbar_layout);
+        CollapsingToolbarLayout appBarLayout = Objects.requireNonNull(getActivity()).findViewById(R.id.toolbar_layout);
         if (appBarLayout != null) {
             appBarLayout.setTitle(mMovie.getTitle());
         }
@@ -154,7 +157,6 @@ public class MovieDetailsFragment extends Fragment {
 
         for (Genre genre : mMovie.getGenres()) {
             TextView textView = new TextView(getActivity());
-            //textView.setBackground(ContextCompat.getDrawable(getActivity().getApplicationContext(), R.drawable.label_bg));
             textView.setText(genre.getName());
             textView.setTextColor(ContextCompat.getColor(getActivity().getApplicationContext(), R.color.colorLightGrey));
             mGenresContainer.addView(textView);
@@ -205,7 +207,7 @@ public class MovieDetailsFragment extends Fragment {
     }
 
     private void closeOnError() {
-        Toast.makeText(getActivity().getApplicationContext(), R.string.movie_detail_error_message, Toast.LENGTH_SHORT).show();
+        Toasty.error(Objects.requireNonNull(getActivity()).getApplicationContext(), getString(R.string.movie_detail_error_message), Toast.LENGTH_SHORT, true).show();
 
         // Not in TwoPane Mode so close the MovieDetailActivity
         if (!areOnTwoPaneMove()) {
@@ -230,7 +232,7 @@ public class MovieDetailsFragment extends Fragment {
     private boolean isFavoriteMovie() {
 
         final Cursor cursor;
-        cursor = getContext().getContentResolver().query(MoviesContract.MoviesEntry.CONTENT_URI, null, "movie_id=?", new String[]{String.valueOf(mMovie.getId())}, null);
+        cursor = Objects.requireNonNull(getContext()).getContentResolver().query(MoviesContract.MoviesEntry.CONTENT_URI, null, "movie_id=?", new String[]{String.valueOf(mMovie.getId())}, null);
 
         boolean result = cursor.getCount() > 0;
         cursor.close();
@@ -242,13 +244,13 @@ public class MovieDetailsFragment extends Fragment {
         if (mIsFavorite) {
             Uri uri = MoviesContract.MoviesEntry.CONTENT_URI;
             uri = uri.buildUpon().appendPath(String.valueOf(mMovie.getId())).build();
-            int returnUri = getContext().getContentResolver().delete(uri, null, null);
+            int returnUri = Objects.requireNonNull(getContext()).getContentResolver().delete(uri, null, null);
             Logger.d("ReturnUri: " + returnUri);
             getContext().getContentResolver().notifyChange(uri, null);
 
             mIsFavorite = !mIsFavorite;
             switchFabStyle();
-            Toast.makeText(getActivity().getApplicationContext(), mMovie.getTitle() + " " + getString(R.string.removed_from_favorite), Toast.LENGTH_SHORT).show();
+            Toasty.info(Objects.requireNonNull(getActivity()).getApplicationContext(), mMovie.getTitle() + " " + getString(R.string.removed_from_favorite), Toast.LENGTH_SHORT, true).show();
         } else {
             ContentValues contentValues = new ContentValues();
             contentValues.put(MoviesContract.MoviesEntry.COLUMN_ID, mMovie.getId());
@@ -260,11 +262,12 @@ public class MovieDetailsFragment extends Fragment {
             contentValues.put(MoviesContract.MoviesEntry.COLUMN_RUNTIME, mMovie.getRuntime());
             contentValues.put(MoviesContract.MoviesEntry.COLUMN_VOTE_AVERAGE, mMovie.getVoteAverage());
 
-            Uri uri = getContext().getContentResolver().insert(MoviesContract.MoviesEntry.CONTENT_URI, contentValues);
+            Uri uri = Objects.requireNonNull(getContext()).getContentResolver().insert(MoviesContract.MoviesEntry.CONTENT_URI, contentValues);
             if (uri != null) {
                 mIsFavorite = !mIsFavorite;
                 switchFabStyle();
-                Toast.makeText(getActivity().getApplicationContext(), mMovie.getTitle() + " " + getString(R.string.added_to_favorite), Toast.LENGTH_SHORT).show();
+                //Toast.makeText(Objects.requireNonNull(getActivity()).getApplicationContext(), mMovie.getTitle() + " " + getString(R.string.added_to_favorite), Toast.LENGTH_SHORT).show();
+                Toasty.info(Objects.requireNonNull(getActivity()).getApplicationContext(), mMovie.getTitle() + " " + getString(R.string.added_to_favorite), Toast.LENGTH_SHORT, true).show();
             } else {
                 Logger.d("Uri null");
             }
@@ -273,10 +276,10 @@ public class MovieDetailsFragment extends Fragment {
 
     private void switchFabStyle() {
         if (mIsFavorite) {
-            mFbLike.setImageDrawable(ContextCompat.getDrawable(getContext(), R.drawable.ic_thumb_down));
+            mFbLike.setImageDrawable(ContextCompat.getDrawable(Objects.requireNonNull(getContext()), R.drawable.ic_thumb_down));
             mFbLike.setBackgroundTintList(ColorStateList.valueOf(ContextCompat.getColor(getContext(), R.color.colorDarkGrey)));
         } else {
-            mFbLike.setImageDrawable(ContextCompat.getDrawable(getContext(), R.drawable.ic_thumb_up));
+            mFbLike.setImageDrawable(ContextCompat.getDrawable(Objects.requireNonNull(getContext()), R.drawable.ic_thumb_up));
             mFbLike.setBackgroundTintList(ColorStateList.valueOf(ContextCompat.getColor(getContext(), R.color.colorAccent)));
         }
     }
