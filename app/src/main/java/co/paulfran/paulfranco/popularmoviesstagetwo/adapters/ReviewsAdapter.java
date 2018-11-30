@@ -12,6 +12,7 @@ import co.paulfran.paulfranco.popularmoviesstagetwo.models.Movie.Reviews;
 public class ReviewsAdapter extends RecyclerView.Adapter<ReviewViewHolder> {
     private Reviews mReviews;
 
+    // constructor
     public ReviewsAdapter(Reviews reviews) {
         this.mReviews = reviews;
     }

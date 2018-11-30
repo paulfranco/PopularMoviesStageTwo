@@ -8,6 +8,7 @@ import java.io.Serializable;
 
 
 import co.paulfran.paulfranco.popularmoviesstagetwo.Constants;
+import co.paulfran.paulfranco.popularmoviesstagetwo.R;
 import co.paulfran.paulfranco.popularmoviesstagetwo.models.Movie.Movie;
 import co.paulfran.paulfranco.popularmoviesstagetwo.models.Movies;
 import retrofit2.Call;
@@ -22,7 +23,7 @@ public final class MoviesAPIManager implements Serializable {
     private MovieAPIService movieApiService;
 
     private MoviesAPIManager() {
-        //Prevent from the reflection api.
+
         if (sharedInstance != null) {
             throw new RuntimeException("Use getInstance() method to get the single instance of this class.");
         }
@@ -52,13 +53,14 @@ public final class MoviesAPIManager implements Serializable {
 
         private int mValue;
 
+        // contructor
         SortBy(int value) {
             this.mValue = value;
-        } // Constructor
+        }
 
         public int id() {
             return mValue;
-        }                  // Return enum index
+        }
 
         public static SortBy fromId(int value) {
             for (SortBy color : values()) {

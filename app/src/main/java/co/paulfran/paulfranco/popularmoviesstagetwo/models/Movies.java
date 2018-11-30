@@ -48,7 +48,7 @@ public class Movies implements Parcelable {
         }
     };
 
-    // Getters & Setters
+    // Getters
     public Integer getPage() {
         return page;
     }

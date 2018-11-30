@@ -21,6 +21,7 @@ import co.paulfran.paulfranco.popularmoviesstagetwo.models.Movie.Movie;
 import co.paulfran.paulfranco.popularmoviesstagetwo.models.Movies;
 import co.paulfran.paulfranco.popularmoviesstagetwo.utils.ImageUtils;
 import co.paulfran.paulfranco.popularmoviesstagetwo.utils.Misc;
+import es.dmoral.toasty.Toasty;
 import retrofit2.Call;
 import co.paulfran.paulfranco.popularmoviesstagetwo.R;
 
@@ -112,7 +113,7 @@ public class MoviesAdapter extends RecyclerView.Adapter<MovieViewHolder> {
                             context.startActivity(intent);
                         }
                     } else {
-                        Toast.makeText(context, R.string.movie_detail_error_message, Toast.LENGTH_SHORT).show();
+                        Toasty.error(context, "Data is not  Available", Toast.LENGTH_SHORT, true).show();
                     }
 
                     callRequest = null;
@@ -127,7 +128,7 @@ public class MoviesAdapter extends RecyclerView.Adapter<MovieViewHolder> {
 
             });
         } else {
-            Toast.makeText(context, R.string.no_internet, Toast.LENGTH_SHORT).show();
+            Toasty.error(context, "No Internet Connection", Toast.LENGTH_SHORT, true).show();
         }
 
     }

@@ -42,14 +42,14 @@ public class ItemSpacingDecoration extends RecyclerView.ItemDecoration {
 
         switch (displayMode) {
             case HORIZONTAL:
-//                outRect.left = spacing;
+                // outRect.left = spacing;
                 outRect.right = position == itemCount - 1 ? 0 : spacing;
                 outRect.top = spacing;
                 outRect.bottom = spacing;
                 break;
             case VERTICAL:
-//                outRect.left = spacing;
-//                outRect.right = spacing;
+                // outRect.left = spacing;
+                // outRect.right = spacing;
                 outRect.top = spacing;
                 outRect.bottom = position == itemCount - 1 ? spacing : 0;
                 break;
@@ -59,13 +59,15 @@ public class ItemSpacingDecoration extends RecyclerView.ItemDecoration {
                     int cols = gridLayoutManager.getSpanCount();
                     int column = position % cols; // item column
 
-                    outRect.left = spacing - column * spacing / cols; // spacing - column * ((1f / spanCount) * spacing)
-                    outRect.right = (column + 1) * spacing / cols; // (column + 1) * ((1f / spanCount) * spacing)
+                    outRect.left = spacing - column * spacing / cols;
+                    outRect.right = (column + 1) * spacing / cols;
 
-                    if (position < cols) { // top edge
+                    if (position < cols) {
+                        // top edge
                         outRect.top = spacing;
                     }
-                    outRect.bottom = spacing; // item bottom
+                    // item bottom
+                    outRect.bottom = spacing;
                 }
                 break;
         }

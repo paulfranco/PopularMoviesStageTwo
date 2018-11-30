@@ -109,13 +109,13 @@ public class MoviesProvider extends ContentProvider {
 
     @Override
     public int update(@NonNull Uri uri, @Nullable ContentValues values, @Nullable String selection, @Nullable String[] selectionArgs) {
-        throw new RuntimeException("We are not implementing update in Popular Movies.");
+        throw new RuntimeException("Not implementing update() in Popular Movies.");
     }
 
     @Nullable
     @Override
     public String getType(@NonNull Uri uri) {
-        throw new RuntimeException("We are not implementing getType in Popular Movies.");
+        throw new RuntimeException("Not implementing getType() in Popular Movies.");
     }
 
     @Override

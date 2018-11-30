@@ -38,7 +38,6 @@ public class ImageUtils {
     public static String buildPosterImageUrl(String posterPath, double holderWidth) {
         String imageWidth;
 
-        // No Need Fo Large Image
         if (holderWidth > 500) {
             imageWidth = "w342";
         } else {

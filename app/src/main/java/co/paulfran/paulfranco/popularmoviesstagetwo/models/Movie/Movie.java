@@ -53,6 +53,7 @@ public class Movie implements Parcelable {
         this.genres = new ArrayList<>();
     }
 
+    // Constructor
     public Movie(int id,
                  String title,
                  String overview,

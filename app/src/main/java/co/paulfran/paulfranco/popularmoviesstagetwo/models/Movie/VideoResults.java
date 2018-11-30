@@ -46,7 +46,6 @@ public class VideoResults implements Parcelable {
     };
 
     // Getters
-
     public List<Video> getResults() {
         return results;
     }

@@ -14,6 +14,7 @@ public class Genre implements Parcelable {
     @JsonProperty("name")
     private String name;
 
+    // Constructor
     public Genre() {
         this.id = 0;
         this.name = "";
