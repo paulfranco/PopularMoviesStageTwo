@@ -11,6 +11,7 @@ import android.content.Loader;
 import android.database.Cursor;
 import android.net.ConnectivityManager;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -66,13 +67,15 @@ public class MovieListActivity extends AppCompatActivity implements LoaderManage
         @Override
         public void onReceive(Context context, Intent intent) {
 
-            // Movies never loaded. Get them! (Entry Point)
+            // if Movies not loaded
             if (mRecyclerView.getAdapter() == null) {
+                // if there is internet connection
                 if (isNetworkAvailable()) {
+                    // load the movies
                     loadMovies();
                 } else {
                     if (sortBy == MoviesAPIManager.SortBy.Favorite) {
-                        // We can load favourite movies even without connection
+                        // We can load favorite movies without internet connection
                         loadMovies();
                     }
                     mNoDataContainerMsg.setText(R.string.no_internet);
