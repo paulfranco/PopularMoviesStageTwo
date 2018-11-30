@@ -36,8 +36,8 @@ public class VideosAdapter extends RecyclerView.Adapter<VideoViewHolder> {
         final Video video = mVideoResults.getResults().get(position);
         Picasso.with(mContext)
                 .load(buildThumbnailUrl(video.getKey()))
-                .placeholder(R.drawable.ic_launcher_foreground)
-                .error(R.drawable.ic_launcher_foreground)
+                .placeholder(R.drawable.placeholder)
+                .error(R.drawable.not_found)
                 .into(holder.mIvVideoThumb);
 
         holder.mTvVideoTitle.setText(video.getName());

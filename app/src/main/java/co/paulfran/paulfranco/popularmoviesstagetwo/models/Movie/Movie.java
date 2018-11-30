@@ -1,5 +1,6 @@
 package co.paulfran.paulfranco.popularmoviesstagetwo.models.Movie;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.os.Parcel;
 import android.os.Parcelable;
@@ -151,7 +152,7 @@ public class Movie implements Parcelable {
     }
 
     public String getReleaseDateLocalized(Context context) {
-        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-DD");
+        @SuppressLint("SimpleDateFormat") SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-DD");
         Date date = null;
         try {
             date = sdf.parse(releaseDate);

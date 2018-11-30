@@ -167,8 +167,8 @@ public class MovieDetailsFragment extends Fragment {
             public void run() {
                 Picasso.with(getActivity().getApplicationContext())
                         .load(ImageUtils.buildPosterImageUrl(mMovie.getPosterPath(), mIvMovie.getWidth()))
-                        .placeholder(R.drawable.ic_launcher_foreground)
-                        .error(R.drawable.ic_launcher_foreground)
+                        .placeholder(R.drawable.placeholder)
+                        .error(R.drawable.not_found)
                         .into(mIvMovie);
             }
         });

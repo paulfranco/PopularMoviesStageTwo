@@ -61,8 +61,8 @@ public class FavoriteMoviesAdapter extends RecyclerView.Adapter<MovieViewHolder>
             public void run() {
                 Picasso.with(mParentActivity.getApplicationContext())
                         .load(ImageUtils.buildPosterImageUrl(mFavoriteMovies.get(pos).getPosterPath(), holder.mIvMovie.getWidth()))
-                        .placeholder(R.drawable.ic_launcher_foreground)
-                        .error(R.drawable.ic_launcher_foreground)
+                        .placeholder(R.drawable.placeholder)
+                        .error(R.drawable.not_found)
                         .into(holder.mIvMovie);
             }
         });
