@@ -14,6 +14,8 @@ import android.support.annotation.Nullable;
 
 import com.orhanobut.logger.Logger;
 
+import java.util.Objects;
+
 import static co.paulfran.paulfranco.popularmoviesstagetwo.data.MoviesContract.MoviesEntry.TABLE_NAME;
 
 public class MoviesProvider extends ContentProvider {
@@ -58,7 +60,7 @@ public class MoviesProvider extends ContentProvider {
             default:
                 throw new UnsupportedOperationException("Unknown uri: " + uri);
         }
-        cursor.setNotificationUri(getContext().getContentResolver(), uri);
+        cursor.setNotificationUri(Objects.requireNonNull(getContext()).getContentResolver(), uri);
         return cursor;
     }
 
@@ -79,7 +81,7 @@ public class MoviesProvider extends ContentProvider {
             default:
                 throw new UnsupportedOperationException("Unknown uri: " + uri);
         }
-        getContext().getContentResolver().notifyChange(resultUri, null);
+        Objects.requireNonNull(getContext()).getContentResolver().notifyChange(resultUri, null);
         Logger.d("Uri is " + resultUri);
         return resultUri;
     }
@@ -99,7 +101,7 @@ public class MoviesProvider extends ContentProvider {
         }
 
         if (numRowsDeleted != 0) {
-            getContext().getContentResolver().notifyChange(uri, null);
+            Objects.requireNonNull(getContext()).getContentResolver().notifyChange(uri, null);
         }
 
         return numRowsDeleted;

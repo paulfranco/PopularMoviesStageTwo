@@ -25,4 +25,5 @@
     <string name="play">Play</string>
     <string name="video">Video</string>
     <string name="movie_backdrop_image">Movie Backdrop Image</string>
+    <string name="failed_to_load_data">Failed to load data.</string>
 </resources>

@@ -7,11 +7,11 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
-import android.content.Loader;
 import android.database.Cursor;
 import android.net.ConnectivityManager;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
+import android.support.v4.content.Loader;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -40,7 +40,7 @@ import co.paulfran.paulfranco.popularmoviesstagetwo.utils.ItemSpacingDecoration;
 import co.paulfran.paulfranco.popularmoviesstagetwo.utils.Misc;
 import co.paulfran.paulfranco.popularmoviesstagetwo.utils.RecyclerViewScrollListener;
 
-public class MovieListActivity extends AppCompatActivity implements LoaderManager.LoaderCallbacks<Cursor> {
+public class MovieListActivity extends AppCompatActivity implements android.support.v4.app.LoaderManager.LoaderCallbacks<Cursor> {
 
     private RecyclerViewScrollListener mScrollListener;
     private SwipyRefreshLayout mSwipeRefreshLayout;
@@ -52,14 +52,11 @@ public class MovieListActivity extends AppCompatActivity implements LoaderManage
 
     public static final String BUNDLE_MOVIES_KEY = "movies";
     public static final String BUNDLE_RECYCLER_POSITION_KEY = "recycler_position";
-    public static final int FAVORITE_MOVIE_LOADER_ID = 89;
+    public static final int FAVORITES_MOVIE_LOADER_ID = 89;
 
     private Movies mMovies = new Movies();
 
-    /**
-     * Whether or not the activity is in two-pane mode, i.e. running on a tablet
-     * device.
-     */
+    // mTwoPane is true if its on a tablet
     private boolean mTwoPane;
 
     // Receivers
@@ -67,15 +64,16 @@ public class MovieListActivity extends AppCompatActivity implements LoaderManage
         @Override
         public void onReceive(Context context, Intent intent) {
 
-            // if Movies not loaded
+            // uf Movies not loaded
             if (mRecyclerView.getAdapter() == null) {
                 // if there is internet connection
                 if (isNetworkAvailable()) {
-                    // load the movies
+                    // load the Movies
                     loadMovies();
                 } else {
+                    // if no internet connection we can still load favorite movies
                     if (sortBy == MoviesAPIManager.SortBy.Favorite) {
-                        // We can load favorite movies without internet connection
+                        // load favorite movies
                         loadMovies();
                     }
                     mNoDataContainerMsg.setText(R.string.no_internet);
@@ -83,7 +81,7 @@ public class MovieListActivity extends AppCompatActivity implements LoaderManage
                 toggleNoDataContainer();
             }
 
-            // Internet connectivity changed so there is no chance data is loading anymore!
+            // if scroll listener is not null data is not loading anymore
             if (mScrollListener != null) {
                 mScrollListener.setLoading(false);
             }
@@ -102,10 +100,7 @@ public class MovieListActivity extends AppCompatActivity implements LoaderManage
         toolbar.setTitle(getTitle());
 
         if (findViewById(R.id.movieDetailContainer) != null) {
-            // The detail container view will be present only in the
-            // large-screen layouts (res/values-w900dp).
-            // If this view is present, then the
-            // activity should be in two-pane mode.
+            // if this view is present, then the activity should be in two-pane mode.
             mTwoPane = true;
         }
 
@@ -122,7 +117,7 @@ public class MovieListActivity extends AppCompatActivity implements LoaderManage
     @Override
     protected void onSaveInstanceState(Bundle outState) {
         super.onSaveInstanceState(outState);
-
+        // if the scroll listener is not empty and the list of Movies is not empty
         if (mScrollListener != null && !mMovies.getResults().isEmpty()) {
             outState.putInt(BUNDLE_RECYCLER_POSITION_KEY, mScrollListener.getFirstCompletelyVisibleItemPosition());
             outState.putParcelable(BUNDLE_MOVIES_KEY, mMovies);
@@ -170,13 +165,18 @@ public class MovieListActivity extends AppCompatActivity implements LoaderManage
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
+        // instantiate the MenuInflater
         MenuInflater inflater = getMenuInflater();
+        // inflate the menu
         inflater.inflate(R.menu.activity_movie_list_menu, menu);
 
-        // Restored Instance State
+        // if sort by is top rated
         if (sortBy == MoviesAPIManager.SortBy.TopRated)
+            // find the item and check true
             menu.findItem(R.id.menu_sort_top_rated).setChecked(true);
+        // if sort by is favorite
         else if (sortBy == MoviesAPIManager.SortBy.Favorite)
+            // find the item and check true
             menu.findItem(R.id.menu_sort_favorite).setChecked(true);
 
         return true;
@@ -187,6 +187,7 @@ public class MovieListActivity extends AppCompatActivity implements LoaderManage
         int id = item.getItemId();
 
         switch (id) {
+            // if sort by most popular
             case R.id.menu_sort_popularity:
                 if (sortBy != MoviesAPIManager.SortBy.MostPopular) {
                     if (isNetworkAvailable()) {
@@ -199,6 +200,7 @@ public class MovieListActivity extends AppCompatActivity implements LoaderManage
                     }
                 }
                 break;
+            // if sort by top rated
             case R.id.menu_sort_top_rated:
                 if (sortBy != MoviesAPIManager.SortBy.TopRated) {
                     if (isNetworkAvailable()) {
@@ -211,6 +213,7 @@ public class MovieListActivity extends AppCompatActivity implements LoaderManage
                     }
                 }
                 break;
+            // if sort by favorite
             case R.id.menu_sort_favorite:
                 if (sortBy != MoviesAPIManager.SortBy.Favorite) {
                     sortBy = MoviesAPIManager.SortBy.Favorite;
@@ -220,7 +223,7 @@ public class MovieListActivity extends AppCompatActivity implements LoaderManage
                 }
                 break;
         }
-
+        // set the time to the type of sorted by option chosen
         setTitleAccordingSort();
         return super.onOptionsItemSelected(item);
     }
@@ -235,8 +238,9 @@ public class MovieListActivity extends AppCompatActivity implements LoaderManage
         mScrollListener = new RecyclerViewScrollListener(layoutManager) {
             @Override
             public void onLoadMore(int totalItemsCount, RecyclerView view) {
-                // We don't want to display "no_internet" message on Endless Scroll so check if network is available
+                // if there is internet connection
                 if (isNetworkAvailable()) {
+                    // load more movies because we want it to be an endless scroll
                     loadMoreMovies();
                 }
             }
@@ -260,10 +264,13 @@ public class MovieListActivity extends AppCompatActivity implements LoaderManage
         mScrollListener.resetState();
         mSwipeRefreshLayout.setRefreshing(false);
 
-        // If on two pane mode clear movie details fragment
+        // if the adapter is empty
         if (adapter == null) {
+            // find the movieDetailContainer
             ViewGroup view = findViewById(R.id.movieDetailContainer);
+            // if the adapter is not empty
             if (view != null) {
+                // clear it
                 view.removeAllViews();
             }
         }
@@ -283,24 +290,27 @@ public class MovieListActivity extends AppCompatActivity implements LoaderManage
     }
 
     private void loadMovies() {
-        // Get the movies
+        // get the movies
         getMovies(1);
     }
 
     private void loadMoreMovies() {
+        // load more movies by incrementing he page number
         getMovies(mMovies.getPage() + 1);
     }
 
     private void getMovies(final int page) {
+        // if sort by favorite
         if (sortBy != MoviesAPIManager.SortBy.Favorite) {
+            // if there is internet connection
             if (isNetworkAvailable()) {
-                getSupportLoaderManager().destroyLoader(FAVORITE_MOVIE_LOADER_ID);
+                getSupportLoaderManager().destroyLoader(FAVORITES_MOVIE_LOADER_ID);
 
                 MoviesAPIManager.getInstance().getMovies(sortBy, page, new MoviesAPICallback<Movies>() {
                     @Override
                     public void onResponse(Movies result) {
                         if (result != null) {
-                            if (page == 1) { // Refreshing movies
+                            if (page == 1) {
                                 mMovies = result;
                                 setRecyclerViewAdapter(new MoviesAdapter(MovieListActivity.this, mMovies, mTwoPane));
                             } else {
@@ -309,6 +319,7 @@ public class MovieListActivity extends AppCompatActivity implements LoaderManage
                                 }
                             }
                         } else {
+                            // display error message
                             mNoDataContainerMsg.setText(R.string.movie_detail_error_message);
                             Toast.makeText(getApplicationContext(), R.string.movie_detail_error_message, Toast.LENGTH_SHORT).show();
                         }
@@ -326,9 +337,9 @@ public class MovieListActivity extends AppCompatActivity implements LoaderManage
             }
         } else {
             mMovies = new Movies();
-            // Reset recycler adapter
+            // set recycler adapter to null
             setRecyclerViewAdapter(null);
-            getSupportLoaderManager().initLoader(FAVORITE_MOVIE_LOADER_ID, null, (android.support.v4.app.LoaderManager.LoaderCallbacks<Object>) this);
+            getSupportLoaderManager().initLoader(FAVORITES_MOVIE_LOADER_ID, null,  this);
         }
 
     }
@@ -363,9 +374,9 @@ public class MovieListActivity extends AppCompatActivity implements LoaderManage
     }
 
     private void saveSortSelected() {
-        getPreferences(Context.MODE_PRIVATE).edit().putInt(getString(R.string.saved_sort_by_key), sortBy.ordinal()).commit();
+        getPreferences(Context.MODE_PRIVATE).edit().putInt(getString(R.string.saved_sort_by_key), sortBy.ordinal()).apply();
     }
-
+    // set the title according to the sorted choice
     private void setTitleAccordingSort() {
         switch (sortBy) {
             case MostPopular:
@@ -384,23 +395,24 @@ public class MovieListActivity extends AppCompatActivity implements LoaderManage
         sortBy = MoviesAPIManager.SortBy.fromId(getPreferences(Context.MODE_PRIVATE).getInt(getString(R.string.saved_sort_by_key), 0));
         setTitleAccordingSort();
     }
-    // May need to remove SuppressLint
+
     @SuppressLint("StaticFieldLeak")
     @Override
     public Loader<Cursor> onCreateLoader(int id, Bundle args) {
-        return new AsyncTaskLoader<Cursor>(this) {
+        return new android.support.v4.content.AsyncTaskLoader<Cursor>(this) {
 
-            // Initialize a Cursor, this will hold all the task data
+            // initialize a Cursor,
             Cursor mTaskData = null;
 
             // onStartLoading() is called when a loader first starts loading data
             @Override
             protected void onStartLoading() {
+                // if mTaskData not empty
                 if (mTaskData != null) {
-                    // Delivers any previously loaded data immediately
+                    // deliver loaded data
                     deliverResult(mTaskData);
                 } else {
-                    // Force a new load
+                    // force a new data to be loaded
                     forceLoad();
                 }
             }
@@ -408,10 +420,6 @@ public class MovieListActivity extends AppCompatActivity implements LoaderManage
             // loadInBackground() performs asynchronous loading of data
             @Override
             public Cursor loadInBackground() {
-                // Will implement to load data
-
-                // Query and load all task data in the background; sort by priority
-                // [Hint] use a try/catch block to catch any errors in loading data
 
                 try {
                     return getContentResolver().query(MoviesContract.MoviesEntry.CONTENT_URI,
@@ -421,13 +429,13 @@ public class MovieListActivity extends AppCompatActivity implements LoaderManage
                             MoviesContract.MoviesEntry._ID);
 
                 } catch (Exception e) {
-                    Logger.e("Failed to load data.");
+                    Logger.e(getString(R.string.failed_to_load_data));
                     e.printStackTrace();
                     return null;
                 }
             }
 
-            // deliverResult sends the result of the load, a Cursor, to the registered listener
+            // deliverResult sends cursor to the registered listener
             public void deliverResult(Cursor data) {
                 mTaskData = data;
                 super.deliverResult(data);
@@ -451,3 +459,4 @@ public class MovieListActivity extends AppCompatActivity implements LoaderManage
 
     }
 }
+
