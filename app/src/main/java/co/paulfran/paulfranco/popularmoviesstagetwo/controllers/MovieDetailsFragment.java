@@ -237,7 +237,7 @@ public class MovieDetailsFragment extends Fragment {
         final Cursor cursor;
         cursor = Objects.requireNonNull(getContext()).getContentResolver().query(MoviesContract.MoviesEntry.CONTENT_URI, null, "movie_id=?", new String[]{String.valueOf(mMovie.getId())}, null);
 
-        boolean result = cursor.getCount() > 0;
+        boolean result = Objects.requireNonNull(cursor).getCount() > 0;
         cursor.close();
         return result;
     }

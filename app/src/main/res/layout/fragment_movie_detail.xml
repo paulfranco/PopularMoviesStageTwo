@@ -58,7 +58,7 @@
                 app:layout_constraintBottom_toBottomOf="@+id/tvVoteValue"
                 app:layout_constraintEnd_toEndOf="@+id/tvTitle"
                 app:layout_constraintTop_toTopOf="@+id/tvVoteValue"
-                app:srcCompat="@drawable/ic_heart" />
+                app:srcCompat="@drawable/ic_thumb_up" />
 
             <TextView
                 android:id="@+id/tvTitle"
@@ -168,7 +168,6 @@
             app:layout_constraintStart_toStartOf="@+id/tvPlotValue"
             app:layout_constraintTop_toBottomOf="@+id/tvPlotValue" />
 
-
         <TextView
             android:id="@+id/tvReviewsTitle"
             android:layout_width="0dp"
@@ -191,7 +190,6 @@
             app:layout_constraintHeight_max="300dp"
             app:layout_constraintStart_toStartOf="@+id/tvPlotValue"
             app:layout_constraintTop_toBottomOf="@+id/tvReviewsTitle" />
-
 
     </android.support.constraint.ConstraintLayout>
 </android.support.v4.widget.NestedScrollView>

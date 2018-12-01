@@ -10,11 +10,6 @@
     android:showDividers="middle"
     tools:context="co.paulfran.paulfranco.popularmoviesstagetwo.controllers.MovieDetailsActivity">
 
-    <!--
-    This layout is a two-pane layout for the Movies
-    master/detail flow.
-    -->
-
     <android.support.constraint.Guideline
         android:id="@+id/guideline"
         android:layout_width="wrap_content"
