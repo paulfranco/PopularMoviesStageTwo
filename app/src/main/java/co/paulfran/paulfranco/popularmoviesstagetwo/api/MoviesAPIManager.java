@@ -7,8 +7,7 @@ import com.orhanobut.logger.Logger;
 import java.io.Serializable;
 
 
-import co.paulfran.paulfranco.popularmoviesstagetwo.Constants;
-import co.paulfran.paulfranco.popularmoviesstagetwo.R;
+import co.paulfran.paulfranco.popularmoviesstagetwo.utils.Constants;
 import co.paulfran.paulfranco.popularmoviesstagetwo.models.Movie.Movie;
 import co.paulfran.paulfranco.popularmoviesstagetwo.models.Movies;
 import retrofit2.Call;

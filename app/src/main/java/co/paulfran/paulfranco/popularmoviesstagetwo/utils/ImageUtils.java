@@ -1,7 +1,5 @@
 package co.paulfran.paulfranco.popularmoviesstagetwo.utils;
 
-import co.paulfran.paulfranco.popularmoviesstagetwo.Constants;
-
 public class ImageUtils {
 
     // Constructor

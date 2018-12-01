@@ -1,4 +1,6 @@
-package co.paulfran.paulfranco.popularmoviesstagetwo;
+package co.paulfran.paulfranco.popularmoviesstagetwo.utils;
+
+import co.paulfran.paulfranco.popularmoviesstagetwo.BuildConfig;
 
 public class Constants {
 
