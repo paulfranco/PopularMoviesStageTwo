@@ -1,4 +1,4 @@
-# PopularMoviesStageTwo
+# Popular Movies StageTwo
 
 **Project Overview**
 
