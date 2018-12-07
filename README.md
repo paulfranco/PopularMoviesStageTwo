@@ -1,4 +1,4 @@
-# Popular Movies StageTwo
+# Popular Movies StageTwo - Using Content Providers
 
 **Project Overview**
 
